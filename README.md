@@ -1,1 +1,1 @@
-# AlternativeVotingThesis
+# AlternativeVotingSystemThesis

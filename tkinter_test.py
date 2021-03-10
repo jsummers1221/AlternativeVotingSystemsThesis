@@ -4,8 +4,8 @@ from matplotlib.figure import Figure
  
 root= tk.Tk()
   
-canvas1 = tk.Canvas(root, width = 800, height = 300)
-canvas1.pack()
+frame1 = tk.Frame(root, width = 800, height = 300)
+frame1.pack()
 
 label1 = tk.Label(root, text='Graphical User Interface')
 label1.config(font=('Times New Roman', 20))

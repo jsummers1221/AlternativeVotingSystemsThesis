@@ -24,13 +24,15 @@ def enterChoices():
 window = tk.Tk()
 window.geometry("950x650")
 
-entry_frame = tk.Frame(window, width=1000, height=450, column=0, row=0)
+entry_frame = tk.Frame(window, width=1000, height=450)
+#entry_frame.grid(column=0, row=0)
 
 label1 = tk.Label(master=entry_frame, text="Pick your scenario:")
 label1.pack()
 
-button1 = tk.Button(master=entry_frame, text="Ranked Voting vs. FPTP", width=25, height=5, column=1, row =0, bg="light steel blue", fg="black", command=lambda: chooseRanked()) 
+button1 = tk.Button(master=entry_frame, text="Ranked Voting vs. FPTP", width=25, height=5, bg="light steel blue", fg="black", command=lambda: chooseRanked())
 #https://stackoverflow.com/questions/6874525/how-to-handle-a-button-click-event
+#button1.grid(column=1, row =0)
 button1.pack()
 
 entry_frame.pack()

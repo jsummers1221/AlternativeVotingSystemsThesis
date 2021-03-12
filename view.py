@@ -2,6 +2,8 @@ import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
  
+#https://realpython.com/python-gui-tkinter/ 
+
 def chooseRanked():
     entry_frame.pack_forget()
     enter_candidate_frame.pack()

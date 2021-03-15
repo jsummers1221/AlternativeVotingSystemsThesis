@@ -40,7 +40,37 @@ class Candidate:
         return self.thirdChoice
 
 def runRankedElection():
-    pass
+
+    won = False
+    losingCandidate = ""
+    winningCandidate = ""
+    winningCandidateName = ""
+
+    while won == False:
+        minVote = 100
+
+        for candidate in candidates:
+            if candidate.getVotes() < minVote:
+                losingCandidate = candidate
+                minVote = candidate.getVotes()
+        
+        if losingCandidate.get2ndChoice():
+            nextCandidate = getCandidate(losingCandidate.get2ndChoice())
+            nextCandidate.setVotes(nextCandidate.getVotes() + losingCandidate.getVotes())
+        else if losingCandidate.get3rdChoice():
+            nextCandidate = getCandidate(losingCandidate.get3rdChoice())
+            nextCandidate.setVotes(nextCandidate.getVotes() + losingCandidate.getVotes())
+
+        candidates.remove(losingCandidate)
+
+        for candidate in candidates:
+            if candidate.getVotes() >= 50:
+                won = True
+                winningCandidate = candidate
+                break
+
+    return [winningCandidate.candidateName, winningCandidate, winningCandidate.getVotes()]
+    #pass
 
 def runECElection():
     #How AZ Electoral College Elections work:

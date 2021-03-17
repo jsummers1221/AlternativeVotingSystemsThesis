@@ -1,24 +1,68 @@
 import tkinter as tk
+import ranked_ec as ranked
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
  
 #https://realpython.com/python-gui-tkinter/ 
+#global variables
+voteRemaining = 100
+
+
 
 def chooseRanked():
     entry_frame.pack_forget()
     enter_candidate_frame.pack()
 
 def createCandidate():
-    #creates the candidate object and adds to candidate list
-    #updates percentage of vote left
-    vote_remaining_label.config(text = "You have 50% of the vote left to assign.")
+    #get user input
+    global voteRemaining
+
+    #check if a field is empty
+    if not candidateEntry.get() or not voteEntry.get():
+        error_label.config(text = f"You need to fill out both fields.", bg = "red")
+        return
+
+    name = candidateEntry.get()
+    candidateEntry.delete(0, tk.END)
+    vote = int(voteEntry.get())
+    voteEntry.delete(0, tk.END)
+
+    #check for errors
+    if vote > voteRemaining: #cannot exceed vote remaining
+        error_label.config(text = f"Error: Candidate not created. Vote assigned exceeds % of the vote remaining.", bg = "red")
+        return
+    
+    check = ranked.getCandidate(name) #no duplicate names
+    if check:
+        error_label.config(text = f"Error: Candidate not created. Candidate {name} already exists.", bg = "red")
+        return
+
+    if vote < 0: #vote received cannot be negative
+        error_label.config(text = f"Error: The percentage of the vote recieved cannot be less than 0.", bg = "red")
+        return
+
+
+    
+    #create new candidate, add to list, and update vote remaining
+    newCand = ranked.Candidate(name, vote)
+    ranked.candidates.append(newCand)
+    voteRemaining -= vote
+    error_label.config(text = f"Candidate {newCand.getName()} created with {newCand.getVotes()}% of the vote.", bg = "green")
+    vote_remaining_label.config(text = f"You have {voteRemaining}% of the vote left to assign.")
+
+    #print updated candidate list to console
+    ranked.printCandidates()
 
 
 def donewCandidates():
     #user clicks done and transitions to next frame for choosing candidate choices if they have entered 100% of the vote
     #check that user has entered 100% of the vote (set)
     #otherwise prints out error message and does not transistion till the user enters 100% of the vote
-    pass
+    if voteRemaining != 0:
+        error_label.config(text = f"You still have some of the vote left to assign!", bg = "red")
+        return
+    else:
+        enter_candidate_frame.pack_forget()
 
 
 def enterChoices():
@@ -30,6 +74,7 @@ window.geometry("500x500")
 entry_frame = tk.Frame(window, width=1000, height=450)
 #entry_frame.grid(column=0, row=0)
 
+#PICK SCENARIO
 label1 = tk.Label(master=entry_frame, text="Pick your scenario:")
 label1.pack()
 
@@ -40,30 +85,36 @@ button1.pack()
 
 entry_frame.pack()
 
+#CANDIDATE ENTRY
 enter_candidate_frame = tk.Frame(window)
 candidate_gridframe = tk.Frame(enter_candidate_frame)
-vote_remaining_label = tk.Label(master=enter_candidate_frame, text="You have 100% of the vote left to assign.")
+
+vote_remaining_label = tk.Label(master=enter_candidate_frame, text=f"You have {voteRemaining}% of the vote left to assign.")
 vote_remaining_label.pack()
 
 #https://www.geeksforgeeks.org/how-to-change-the-tkinter-label-text/
-candidate_entry_label = tk.Label(master=candidate_gridframe, text="Enter your candidates:")
+candidate_entry_label = tk.Label(master=candidate_gridframe, text="Enter the candidate name (string):")
 candidate_entry_label.grid(row=0, column=0, padx=5, pady=5)
 candidateEntry = tk.Entry(master=candidate_gridframe)
 candidateEntry.grid(row=0, column=1, padx=5, pady=5)
 
-vote_entry_label = tk.Label(master=candidate_gridframe, text="Enter the percentage of the vote recieved:")
+vote_entry_label = tk.Label(master=candidate_gridframe, text="Enter the percentage of the vote recieved (integer):")
 vote_entry_label.grid(row=1, column=0, padx=5, pady=5)
 voteEntry = tk.Entry(master=candidate_gridframe)
 voteEntry.grid(row=1, column=1, padx=5, pady=5)
 
+
 create_candidate_button = tk.Button(master=candidate_gridframe, text="Create Candidate", width=25, height=5, bg="light steel blue", fg="black", command=lambda: createCandidate()) 
 #https://stackoverflow.com/questions/6874525/how-to-handle-a-button-click-event
 
-done_button = tk.Button(master=candidate_gridframe, text="Done", width=25, height=5, bg="light steel blue", fg="black",) 
+done_button = tk.Button(master=candidate_gridframe, text="Done", width=25, height=5, bg="light steel blue", fg="black",command=lambda: donewCandidates()) 
 
 create_candidate_button.grid(row=2, column=0, padx=5, pady=5)
 done_button.grid(row=2, column=1, padx=5, pady=5)
 candidate_gridframe.pack()
+error_label = tk.Label(master = enter_candidate_frame, text="")
+error_label.pack()
+
 
 window.mainloop()
 

@@ -15,10 +15,10 @@ class Candidate:
         self.candidateName = name
         self.percentVote = percent
 
-    def setCandidate(self, name):
+    def setName(self, name):
         self.candidateName = name
 
-    def getCandidate(self):
+    def getName(self):
         return self.candidateName
 
     def setVotes(self, vote):
@@ -39,6 +39,20 @@ class Candidate:
     def get3rdChoice(self):
         return self.thirdChoice
 
+    def print(self):
+        info = f"Candidate: {self.candidateName}, Vote Received: {self.percentVote}, 2nd: {self.secondChoice}, 3rd: {self.thirdChoice}"
+        print(info)
+
+def getCandidate(name):
+    for cand in candidates:
+        if cand.getName() == name:
+            return cand
+    return None
+
+def printCandidates():
+    for cand in candidates:
+        cand.print()
+
 def runRankedElection():
 
     won = False
@@ -47,27 +61,32 @@ def runRankedElection():
     winningCandidateName = ""
 
     while won == False:
+        
+        #see if there's a winner
+        for candidate in candidates:
+            if candidate.getVotes() > 50:
+                won = True
+                winningCandidate = candidate
+                break
+        
+        #remove lowest candidate
         minVote = 100
-
         for candidate in candidates:
             if candidate.getVotes() < minVote:
                 losingCandidate = candidate
                 minVote = candidate.getVotes()
-        
-        if losingCandidate.get2ndChoice():
+    
+        #give loser's votes to 2nd or 3rd choice
+        #https://stackoverflow.com/questions/598398/searching-a-list-of-objects-in-python
+        #search thru a list of objects for an attribute value
+        if any(x for x in candidates if x.getName == losingCandidate.get2ndChoice()):
             nextCandidate = getCandidate(losingCandidate.get2ndChoice())
             nextCandidate.setVotes(nextCandidate.getVotes() + losingCandidate.getVotes())
-        else if losingCandidate.get3rdChoice():
+        elif any(x for x in candidates if x.getName == losingCandidate.get3rdChoice()):
             nextCandidate = getCandidate(losingCandidate.get3rdChoice())
             nextCandidate.setVotes(nextCandidate.getVotes() + losingCandidate.getVotes())
 
         candidates.remove(losingCandidate)
-
-        for candidate in candidates:
-            if candidate.getVotes() >= 50:
-                won = True
-                winningCandidate = candidate
-                break
 
     return [winningCandidate.candidateName, winningCandidate, winningCandidate.getVotes()]
     #pass

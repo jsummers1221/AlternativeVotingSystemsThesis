@@ -1,4 +1,4 @@
-
+#MODEL
 candidates = []
 #how to search thru list of objects for an object with an attribute equal to some value
 #next((x for x in test_list if x.value == value), None)
@@ -43,6 +43,13 @@ class Candidate:
         info = f"Candidate: {self.candidateName}, Vote Received: {self.percentVote}, 2nd: {self.secondChoice}, 3rd: {self.thirdChoice}"
         print(info)
 
+def getNames():
+
+    names_list = []
+    for cand in candidates:
+        names_list.append(cand.getName())
+    return names_list
+    
 def getCandidate(name):
     for cand in candidates:
         if cand.getName() == name:
@@ -86,7 +93,10 @@ def runRankedElection():
             nextCandidate = getCandidate(losingCandidate.get3rdChoice())
             nextCandidate.setVotes(nextCandidate.getVotes() + losingCandidate.getVotes())
 
-        candidates.remove(losingCandidate)
+        if len(candidates) > 1:
+            candidates.remove(losingCandidate)
+        else:
+            return "No winner :c. No candidate reached over 50% after all others were eliminated. In this situation, a manual run-off election will have to be held."
 
     return [winningCandidate.candidateName, winningCandidate, winningCandidate.getVotes()]
     #pass

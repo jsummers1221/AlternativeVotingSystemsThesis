@@ -7,8 +7,7 @@ from matplotlib.figure import Figure
 #global variables
 voteRemaining = 100
 
-
-
+#CONTROLLER METHODS
 def chooseRanked():
     entry_frame.pack_forget()
     enter_candidate_frame.pack()
@@ -64,10 +63,68 @@ def donewCandidates():
     else:
         enter_candidate_frame.pack_forget()
 
+        candidate_options = ranked.getNames()
+
+        candidate_options1 = ranked.getNames()
+        candidate_options1.append("")
+
+
+        variable1 = tk.StringVar(window)
+        variable1.set(candidate_options[0]) #this specifies default value
+
+        variable2 = tk.StringVar(window)
+        variable2.set(candidate_options1[0]) #this specifies default value
+
+        variable3 = tk.StringVar(window)
+        variable3.set(candidate_options1[0]) #this specifies default value
+
+        #how to make the option menu
+        #https://stackoverflow.com/questions/45441885/how-can-i-create-a-dropdown-menu-from-a-list-in-tkinter
+        #https://www.askpython.com/python-modules/tkinter/tkinter-listbox-option-menu
+        candidate_option_menu = tk.OptionMenu(candidate_choices_gridframe, variable1, *candidate_options)
+        candidate_option_menu.config(bg="light steel blue", fg="black")
+        candidate_option_menu["menu"].config(bg="light steel blue", fg="black")
+
+        second_choices_option_menu = tk.OptionMenu(candidate_choices_gridframe, variable2, *candidate_options1)
+        second_choices_option_menu.config(bg="light steel blue", fg="black")
+        second_choices_option_menu["menu"].config(bg="light steel blue", fg="black")
+
+        third_choices_option_menu = tk.OptionMenu(candidate_choices_gridframe, variable3, *candidate_options1)
+        third_choices_option_menu.config(bg="light steel blue", fg="black")
+        third_choices_option_menu["menu"].config(bg="light steel blue", fg="black")
+
+        candidate.grid(row=0, column=0, padx=5, pady=5)
+        candidate_option_menu.grid(row=0, column=1, padx=5, pady=5)
+        candidate_second_choice.grid(row=1, column=0, padx=5, pady=5)
+        second_choices_option_menu.grid(row=1, column=1, padx=5, pady=5)
+        candidate_third_choice.grid(row=2, column=0, padx=5, pady=5)
+        third_choices_option_menu.grid(row=2, column=1, padx=5, pady=5)
+        create_choice_button.grid(row=3, column=0, padx=5, pady=5)
+        calculate_results.grid(row=3, column=1, padx=5, pady=5)
+        enter_candidate_choices_frame.pack()
+
 
 def enterChoices():
-    pass
+    candName = candidate_option_menu.get()
+    secondChoice = second_choices_option_menu.get()
+    thirdChoice = third_choices_option_menu.get()
 
+    if (candName == secondChoice) or (candName == thirdChoice) or ((secondChoice == thirdChoice) and (secondChoice != "")):
+        choices_error_label.config(text="You cannot select the same candidate in more than one dropdown menu.", bg ="red")
+        return
+    else:
+        candObject = ranked.getCandidate(candName)
+        candObject.set2ndChoice(secondChoice)
+        candObject.set3rdChoice(thirdChoice)
+        choices_error_label.config(text=f"Candidate {candObject.getName()} has second choice {candObject.get2ndChoice()} and third choice {candObject.get3rdChoice()}")
+        
+        ranked.printCandidates()
+        return
+
+def donewChoices():
+    pass
+    
+#VIEW (GUI)
 window = tk.Tk()
 window.geometry("500x500")
 
@@ -115,6 +172,29 @@ candidate_gridframe.pack()
 error_label = tk.Label(master = enter_candidate_frame, text="")
 error_label.pack()
 
+#Candidate Choices entry
+enter_candidate_choices_frame = tk.Frame(window)
+
+choices_error_label = tk.Label(master=enter_candidate_choices_frame, text="")
+
+candidate_choices_label = tk.Label(master=enter_candidate_choices_frame, text="Enter the second and third choices for each candidate:")
+candidate_choices_label.pack()
+
+candidate_choices_gridframe = tk.Frame(enter_candidate_choices_frame)
+create_choice_button = tk.Button(master=candidate_choices_gridframe, text="Create Choices", width=25, height=2, bg="light steel blue", fg="black", command=lambda: enterChoices())
+calculate_results = tk.Button(master=candidate_choices_gridframe, text="Calculate Results", width=25, height=2, bg="light steel blue", fg="black")
+
+candidate = tk.Label(master=candidate_choices_gridframe, text="Candidate:")
+candidate_second_choice = tk.Label(master=candidate_choices_gridframe, text="Second Choice:")
+candidate_third_choice = tk.Label(master=candidate_choices_gridframe, text="Third Choice:")
+
+empty_list = ["empty"]
+candidate_option_menu = tk.OptionMenu(candidate_choices_gridframe, empty_list[0], empty_list)
+second_choices_option_menu = tk.OptionMenu(candidate_choices_gridframe, empty_list[0], empty_list)
+third_choices_option_menu = tk.OptionMenu(candidate_choices_gridframe, empty_list[0], empty_list)
+
+candidate_choices_gridframe.pack()
+choices_error_label.pack()
 
 window.mainloop()
 

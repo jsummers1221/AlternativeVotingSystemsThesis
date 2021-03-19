@@ -68,16 +68,6 @@ def donewCandidates():
         candidate_options1 = ranked.getNames()
         candidate_options1.append("")
 
-
-        variable1 = tk.StringVar(window)
-        variable1.set(candidate_options[0]) #this specifies default value
-
-        variable2 = tk.StringVar(window)
-        variable2.set(candidate_options1[0]) #this specifies default value
-
-        variable3 = tk.StringVar(window)
-        variable3.set(candidate_options1[0]) #this specifies default value
-
         #how to make the option menu
         #https://stackoverflow.com/questions/45441885/how-can-i-create-a-dropdown-menu-from-a-list-in-tkinter
         #https://www.askpython.com/python-modules/tkinter/tkinter-listbox-option-menu
@@ -105,12 +95,15 @@ def donewCandidates():
 
 
 def enterChoices():
-    candName = candidate_option_menu.get()
-    secondChoice = second_choices_option_menu.get()
-    thirdChoice = third_choices_option_menu.get()
+    candName = variable1.get()
+    secondChoice = variable2.get()
+    thirdChoice = variable3.get()
 
     if (candName == secondChoice) or (candName == thirdChoice) or ((secondChoice == thirdChoice) and (secondChoice != "")):
         choices_error_label.config(text="You cannot select the same candidate in more than one dropdown menu.", bg ="red")
+        return
+    elif (candName == "Pick a Candidate") or (secondChoice == "Pick a Candidate") or (thirdChoice == "Pick a Candidate"):
+        choices_error_label.config(text="You must either select a candidate or select no candidate", bg ="red")
         return
     else:
         candObject = ranked.getCandidate(candName)
@@ -122,6 +115,9 @@ def enterChoices():
         return
 
 def donewChoices():
+
+    enter_candidate_choices_frame.pack_forget()
+
     pass
     
 #VIEW (GUI)
@@ -182,7 +178,7 @@ candidate_choices_label.pack()
 
 candidate_choices_gridframe = tk.Frame(enter_candidate_choices_frame)
 create_choice_button = tk.Button(master=candidate_choices_gridframe, text="Create Choices", width=25, height=2, bg="light steel blue", fg="black", command=lambda: enterChoices())
-calculate_results = tk.Button(master=candidate_choices_gridframe, text="Calculate Results", width=25, height=2, bg="light steel blue", fg="black")
+calculate_results = tk.Button(master=candidate_choices_gridframe, text="Calculate Results", width=25, height=2, bg="light steel blue", fg="black", command=lambda: donewChoices())
 
 candidate = tk.Label(master=candidate_choices_gridframe, text="Candidate:")
 candidate_second_choice = tk.Label(master=candidate_choices_gridframe, text="Second Choice:")
@@ -193,8 +189,34 @@ candidate_option_menu = tk.OptionMenu(candidate_choices_gridframe, empty_list[0]
 second_choices_option_menu = tk.OptionMenu(candidate_choices_gridframe, empty_list[0], empty_list)
 third_choices_option_menu = tk.OptionMenu(candidate_choices_gridframe, empty_list[0], empty_list)
 
+#this is where i made them global
+candidate_options = ["Pick a Candidate"]
+
+candidate_options1 = ["Pick a Candidate"]
+
+variable1 = tk.StringVar(window)
+variable1.set(candidate_options[0]) #this specifies default value
+
+variable2 = tk.StringVar(window)
+variable2.set(candidate_options1[0]) #this specifies default value
+
+variable3 = tk.StringVar(window)
+variable3.set(candidate_options1[0]) #this specifies default value
+
 candidate_choices_gridframe.pack()
 choices_error_label.pack()
 
+#results frame
+results_frame = tk.Frame(window)
+ranked_results_gridframe = tk.Frame(results_frame)
+ranked_results_label = tk.Label(master=results_frame, text="Ranked Voting Simulation")
+ranked_results_label.pack()
+
+
+FPTP_results_gridframe = tk.Frame(results_frame)
+FPTP_results_label = tk.Label(master=results_frame, text="Ranked Voting Simulation")
+FPTP_results_label.pack()
+
+return_to_main_menu_button = tk.Button(master=candidate_gridframe, text="Return to Main Menu", width=25, height=5, bg="light steel blue", fg="black",command=lambda: donewCandidates()) 
 window.mainloop()
 

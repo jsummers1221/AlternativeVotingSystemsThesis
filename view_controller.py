@@ -109,16 +109,59 @@ def enterChoices():
         candObject = ranked.getCandidate(candName)
         candObject.set2ndChoice(secondChoice)
         candObject.set3rdChoice(thirdChoice)
-        choices_error_label.config(text=f"Candidate {candObject.getName()} has second choice {candObject.get2ndChoice()} and third choice {candObject.get3rdChoice()}")
+        choices_error_label.config(text=f"Candidate {candObject.getName()} has second choice {candObject.get2ndChoice()} and third choice {candObject.get3rdChoice()}", bg = "green")
         
         ranked.printCandidates()
         return
 
-def donewChoices():
-
+def calculateResults():
     enter_candidate_choices_frame.pack_forget()
+    #results frame
+    results_frame = tk.Frame(window)
+    results_gridframe = tk.Frame(results_frame)
 
-    pass
+    #FPTP results (do this first)
+    FPTP_results_frame = tk.Frame(results_gridframe)
+    FPTP_results_label = tk.Label(master=FPTP_results_frame, text="FPTP Voting Simulation")
+    FPTP_results_label.pack()
+    #run the election
+    fptpWinner = ranked.runFPTPElection()
+    fptp_message = tk.Label(master=FPTP_results_frame, text =f"Winner: Candidate {fptpWinner[0]} with {fptpWinner[1]}% of the votes won Arizona’s 11 EC votes.")
+    fptp_message.pack()
+    #create pie chart
+
+
+    #ranked results (do this second)
+    ranked_results_frame= tk.Frame(results_gridframe)
+    ranked_results_label = tk.Label(master=ranked_results_frame, text="Ranked Voting Simulation")
+    ranked_results_label.pack()
+    #run the election
+    rankedWinner = ranked.runRankedElection()
+    if type(rankedWinner) == list:
+        ranked_message = tk.Label(master=ranked_results_frame, text = f"Winner: Candidate {rankedWinner[0]} with {rankedWinner[1]}% of the votes after {rankedWinner[2]} rounds won Arizona’s 11 EC votes.")
+        ranked_message.pack()
+    elif type(rankedWinner) == str:
+        ranked_message = tk.Label(master=ranked_results_frame, text = rankedWinner)
+        ranked_message.pack()
+    #create the graph
+
+    
+    #pack both election result frames
+    ranked_results_frame.grid(row=0, column=0, padx=5, pady=5)
+    FPTP_results_frame.grid(row=0, column=1, padx=5, pady=5)
+    results_gridframe.pack()
+    return_to_main_menu_button = tk.Button(master=results_frame, text="Return to Main Menu", width=25, height=5, bg="light steel blue", fg="black",command=lambda: mainMenu()) 
+    return_to_main_menu_button.pack()
+   
+
+
+
+    results_frame.pack()
+
+def mainMenu():
+    results_frame.pack_forget()
+    ranked.candidates.clear()
+    entry_frame.pack()
     
 #VIEW (GUI)
 window = tk.Tk()
@@ -178,7 +221,7 @@ candidate_choices_label.pack()
 
 candidate_choices_gridframe = tk.Frame(enter_candidate_choices_frame)
 create_choice_button = tk.Button(master=candidate_choices_gridframe, text="Create Choices", width=25, height=2, bg="light steel blue", fg="black", command=lambda: enterChoices())
-calculate_results = tk.Button(master=candidate_choices_gridframe, text="Calculate Results", width=25, height=2, bg="light steel blue", fg="black", command=lambda: donewChoices())
+calculate_results = tk.Button(master=candidate_choices_gridframe, text="Calculate Results", width=25, height=2, bg="light steel blue", fg="black", command=lambda: calculateResults())
 
 candidate = tk.Label(master=candidate_choices_gridframe, text="Candidate:")
 candidate_second_choice = tk.Label(master=candidate_choices_gridframe, text="Second Choice:")
@@ -206,17 +249,5 @@ variable3.set(candidate_options1[0]) #this specifies default value
 candidate_choices_gridframe.pack()
 choices_error_label.pack()
 
-#results frame
-results_frame = tk.Frame(window)
-ranked_results_gridframe = tk.Frame(results_frame)
-ranked_results_label = tk.Label(master=results_frame, text="Ranked Voting Simulation")
-ranked_results_label.pack()
-
-
-FPTP_results_gridframe = tk.Frame(results_frame)
-FPTP_results_label = tk.Label(master=results_frame, text="Ranked Voting Simulation")
-FPTP_results_label.pack()
-
-return_to_main_menu_button = tk.Button(master=candidate_gridframe, text="Return to Main Menu", width=25, height=5, bg="light steel blue", fg="black",command=lambda: donewCandidates()) 
 window.mainloop()
 

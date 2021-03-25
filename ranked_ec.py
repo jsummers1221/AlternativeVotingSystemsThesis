@@ -70,6 +70,7 @@ def runRankedElection():
 
     print("Ranked Round: %d" % numRounds)
     printCandidates()
+    #create initial graph
 
     while won == False:
         numRounds += 1
@@ -81,6 +82,7 @@ def runRankedElection():
                 return [winningCandidate.candidateName, winningCandidate.getVotes(), numRounds, winningCandidate,]
         
         #remove lowest candidate
+        #find candidate to remove
         minVote = 100
         for candidate in candidates:
             if candidate.getVotes() < minVote:
@@ -96,6 +98,8 @@ def runRankedElection():
         #elif any(x for x in candidates if x.getName == losingCandidate.get3rdChoice()):
         #    nextCandidate = getCandidate(losingCandidate.get3rdChoice())
         #   nextCandidate.setVotes(nextCandidate.getVotes() + losingCandidate.getVotes())
+
+        #find loser's 2nd or 3rd choice if they exist & give them the loser's votes
         nextCandidate = getCandidate(losingCandidate.get2ndChoice())
         if nextCandidate is not None:
             nextCandidate.setVotes(nextCandidate.getVotes() + losingCandidate.getVotes())
@@ -104,16 +108,19 @@ def runRankedElection():
             if(nextCandidate):
                 nextCandidate.setVotes(nextCandidate.getVotes() + losingCandidate.getVotes())
 
-        if len(candidates) > 1:
+        #remove the loser unless they are the last one left
+        if len(candidates) > 1: 
             candidates.remove(losingCandidate)
             print("Removed Candidate %s and gave their votes to Candidate %s" % (losingCandidate.getName(), nextCandidate.getName()))
             print("Ranked Round: %d" % numRounds)
             printCandidates()
+            #create graph 
 
         else:
             print("Ranked Round: %d" % numRounds)
             printCandidates()
             return "No winner :c. No candidate reached over 50% after all others were eliminated. In this situation, a manual run-off election will have to be held."
+            #create graph
 
     return [winningCandidate.candidateName, winningCandidate.getVotes(), numRounds, winningCandidate,]
     #pass

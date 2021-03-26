@@ -14,8 +14,7 @@ canvas1.create_window(400, 50, window=label1)
 entry1 = tk.Entry (root)
 canvas1.create_window(400, 100, window=entry1) 
   
-entry2 = tk.Entry (
-    root)
+entry2 = tk.Entry (root)
 canvas1.create_window(400, 120, window=entry2) 
           
 entry3 = tk.Entry (root)

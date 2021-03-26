@@ -115,9 +115,10 @@ def enterChoices():
         return
 
 def calculateResults():
+    window.geometry("900x500")
     enter_candidate_choices_frame.pack_forget()
     #results frame
-    results_frame = tk.Frame(window)
+ 
     results_gridframe = tk.Frame(results_frame)
 
     #FPTP results (do this first)
@@ -128,13 +129,24 @@ def calculateResults():
     fptpWinner = ranked.runFPTPElection()
     fptp_message = tk.Label(master=FPTP_results_frame, text =f"Winner: Candidate {fptpWinner[0]} with {fptpWinner[1]}% of the votes won Arizona’s 11 EC votes.")
     fptp_message.pack()
-    #create pie chart
+    #create pie chart:
+    #https://datatofish.com/how-to-create-a-gui-in-python/
+    #https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_features.html#references
+    fptpGraph = Figure(figsize=(4,3), dpi=100) 
+    subplot1 = fptpGraph.add_subplot(111) 
+    names = ranked.getNames()
+    votes = ranked.getVotes()
+    subplot1.pie(votes, labels=names, autopct='%1.1f%%', shadow=True, startangle=90)
+    subplot1.axis('equal')
+    fptpPie = FigureCanvasTkAgg(fptpGraph, FPTP_results_frame)
+    fptpPie.get_tk_widget().pack()
 
 
     #ranked results (do this second)
     ranked_results_frame= tk.Frame(results_gridframe)
     ranked_results_label = tk.Label(master=ranked_results_frame, text="Ranked Voting Simulation")
     ranked_results_label.pack()
+    
     #run the election
     rankedWinner = ranked.runRankedElection()
     if type(rankedWinner) == list:
@@ -143,9 +155,26 @@ def calculateResults():
     elif type(rankedWinner) == str:
         ranked_message = tk.Label(master=ranked_results_frame, text = rankedWinner)
         ranked_message.pack()
-    #create the graph
 
+    #create the pie chart
+    #scrollbars
+    #https://blog.teclado.com/tkinter-scrollable-frames/
+    #https://www.geeksforgeeks.org/scrollable-frames-in-tkinter/
+    #https://stackoverflow.com/questions/3085696/adding-a-scrollbar-to-a-group-of-widgets-in-tkinter
+    canvas = tk.Canvas(ranked_results_frame)
+    scroll_frame = tk.Frame(canvas)
+    vertical_scroll = tk.Scrollbar(ranked_results_frame, orient="vertical", command=canvas.yview)
+    canvas.configure(yscrollcommand=vertical_scroll.set)
+
+    #scroll_frame.bind("<Configure>",lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+    vertical_scroll.pack(side="right", fill ="y")
+    canvas.pack(side="left", fill="both", expand=True)
+    canvas.create_window((4,4), window=scroll_frame, anchor="nw")
     
+    scroll_frame.bind('<Configure>',  lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox('all')))
+    for i in range(50):
+        tk.Label(scroll_frame, text="Sample scrolling label").pack()
+
     #pack both election result frames
     ranked_results_frame.grid(row=0, column=0, padx=5, pady=5)
     FPTP_results_frame.grid(row=0, column=1, padx=5, pady=5)
@@ -248,6 +277,9 @@ variable3.set(candidate_options1[0]) #this specifies default value
 
 candidate_choices_gridframe.pack()
 choices_error_label.pack()
+
+#results frame
+results_frame = tk.Frame(window)
 
 window.mainloop()
 

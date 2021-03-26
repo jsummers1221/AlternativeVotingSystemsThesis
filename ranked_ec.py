@@ -48,6 +48,12 @@ def getNames():
     for cand in candidates:
         names_list.append(cand.getName())
     return names_list
+
+def getVotes():
+    votes_list = []
+    for cand in candidates:
+        votes_list.append(cand.getVotes())
+    return votes_list
     
 def getCandidate(name):
     for cand in candidates:

@@ -6,10 +6,10 @@ candidates = []
 
 
 class Candidate:
-    candidateName = ""
-    percentVote = 0
-    secondChoice = ""
-    thirdChoice = ""
+    #candidateName = ""
+    #percentVote = 0
+    #secondChoice = ""
+    #thirdChoice = ""
 
     def __init__(self, name, percent):
         self.candidateName = name

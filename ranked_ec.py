@@ -1,5 +1,10 @@
+
+from collections import OrderedDict
 #MODEL
 candidates = []
+rounds_names = OrderedDict()
+rounds_votes = OrderedDict()
+rounds_msg = OrderedDict()
 #how to search thru list of objects for an object with an attribute equal to some value
 #next((x for x in test_list if x.value == value), None)
 #https://stackoverflow.com/questions/7125467/find-object-in-list-that-has-attribute-equal-to-some-value-that-meets-any-condi 
@@ -14,6 +19,8 @@ class Candidate:
     def __init__(self, name, percent):
         self.candidateName = name
         self.percentVote = percent
+        self.secondChoice = ""
+        self.thirdChoice = ""
 
     def setName(self, name):
         self.candidateName = name
@@ -73,10 +80,13 @@ def runRankedElection():
     winningCandidate = ""
     winningCandidateName = ""
     numRounds = 0
+    #update info for pie charts
+    rounds_names[numRounds] = getNames()
+    rounds_votes[numRounds] = getVotes()
 
-    print("Ranked Round: %d" % numRounds)
+    print("Initial Candidates:")
     printCandidates()
-    #create initial graph
+    
 
     while won == False:
         numRounds += 1
@@ -85,6 +95,10 @@ def runRankedElection():
             if candidate.getVotes() > 50:
                 won = True
                 winningCandidate = candidate
+                print("Ranked Round: %d" % numRounds)
+                #update info for the pie charts
+                rounds_names[numRounds] = getNames()
+                rounds_votes[numRounds] = getVotes()
                 return [winningCandidate.candidateName, winningCandidate.getVotes(), numRounds, winningCandidate,]
         
         #remove lowest candidate
@@ -117,16 +131,24 @@ def runRankedElection():
         #remove the loser unless they are the last one left
         if len(candidates) > 1: 
             candidates.remove(losingCandidate)
-            print("Removed Candidate %s and gave their votes to Candidate %s" % (losingCandidate.getName(), nextCandidate.getName()))
             print("Ranked Round: %d" % numRounds)
+            print("Removed Candidate %s and gave their votes to Candidate %s" % (losingCandidate.getName(), nextCandidate.getName()))
             printCandidates()
-            #create graph 
+            
+            #update info for pie charts
+            msg = "Removed Candidate %s and gave their votes to Candidate %s" % (losingCandidate.getName(), nextCandidate.getName())
+            rounds_names[numRounds] = getNames()
+            rounds_votes[numRounds] = getVotes()
+            rounds_msg[numRounds] = msg
 
         else:
             print("Ranked Round: %d" % numRounds)
             printCandidates()
+            #update info for pie charts
+            rounds_names[numRounds] = getNames()
+            rounds_votes[numRounds] = getVotes()
             return "No winner :c. No candidate reached over 50% after all others were eliminated. In this situation, a manual run-off election will have to be held."
-            #create graph
+            
 
     return [winningCandidate.candidateName, winningCandidate.getVotes(), numRounds, winningCandidate,]
     #pass

@@ -5,10 +5,10 @@ cand2 = ranked.Candidate("B", 50)
 #cand3 = ranked.Candidate("C", 25)
 
 cand1.set2ndChoice("B")
-cand1.set3rdChoice("C")
+cand1.set3rdChoice("")
 
-cand2.set2ndChoice("C")
-cand2.set3rdChoice("A")
+cand2.set2ndChoice("A")
+cand2.set3rdChoice("")
 
 #cand3.set2ndChoice("B")
 #cand3.set3rdChoice("A")
@@ -25,3 +25,6 @@ if type(rankedWinner) == list:
        print(f"Ranked Winner: Candidate {rankedWinner[0]} with {rankedWinner[1]}% of the votes after {rankedWinner[2]} rounds won Arizona’s 11 EC votes.")
 elif type(rankedWinner) == str:
     print(rankedWinner)
+print(ranked.rounds_names)
+print(ranked.rounds_votes)
+print(ranked.rounds_msg)

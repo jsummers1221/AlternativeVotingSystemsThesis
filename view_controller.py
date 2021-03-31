@@ -2,6 +2,7 @@ import tkinter as tk
 import ranked_ec as ranked
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+from collections import OrderedDict
  
 #https://realpython.com/python-gui-tkinter/ 
 #global variables
@@ -13,9 +14,8 @@ def chooseRanked():
     enter_candidate_frame.pack()
 
 def createCandidate():
-    #get user input
     global voteRemaining
-
+    #get user input
     #check if a field is empty
     if not candidateEntry.get() or not voteEntry.get():
         error_label.config(text = f"You need to fill out both fields.", bg = "red")
@@ -156,13 +156,14 @@ def calculateResults():
         ranked_message = tk.Label(master=ranked_results_frame, text = rankedWinner)
         ranked_message.pack()
 
-    #create the pie chart
+    
     #scrollbars
     #https://blog.teclado.com/tkinter-scrollable-frames/
     #https://www.geeksforgeeks.org/scrollable-frames-in-tkinter/
     #https://stackoverflow.com/questions/3085696/adding-a-scrollbar-to-a-group-of-widgets-in-tkinter
     canvas = tk.Canvas(ranked_results_frame)
-    global scroll_frame = tk.Frame(canvas)
+    global scroll_frame #declare this as global so the function to create charts for each round can access it
+    scroll_frame = tk.Frame(canvas)
     vertical_scroll = tk.Scrollbar(ranked_results_frame, orient="vertical", command=canvas.yview)
     canvas.configure(yscrollcommand=vertical_scroll.set)
 
@@ -170,41 +171,46 @@ def calculateResults():
     vertical_scroll.pack(side="right", fill ="y")
     canvas.pack(side="left", fill="both", expand=True)
     canvas.create_window((4,4), window=scroll_frame, anchor="nw")
-    
     scroll_frame.bind('<Configure>',  lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox('all')))
-    for i in range(50):
-        tk.Label(scroll_frame, text="Sample scrolling label").pack()
+    
+    roundvotes = ranked.rounds_votes
+    roundnames = ranked.rounds_names
+    roundmsgs = ranked.rounds_msg
+    
+    #create graphs for each round
+    for roundnum in roundvotes:    
+        #create pie chart:
+        #https://datatofish.com/how-to-create-a-gui-in-python/
+        #https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_features.html#references
+        tk.Label(scroll_frame, text=f"Round {roundnum}").pack()
+        if roundnum in roundmsgs:
+            tk.Label(scroll_frame, text=roundmsgs[roundnum]).pack()
+        graph = Figure(figsize=(4,3), dpi=100) 
+        subplot1 = graph.add_subplot(111) 
+        names = roundnames[roundnum]
+        votes = roundvotes[roundnum]
+        subplot1.pie(votes, labels=names, autopct='%1.1f%%', shadow=True, startangle=90)
+        subplot1.axis('equal')
+        rankPie = FigureCanvasTkAgg(graph, scroll_frame)
+        rankPie.get_tk_widget().pack()
 
     #pack both election result frames
     ranked_results_frame.grid(row=0, column=0, padx=5, pady=5)
     FPTP_results_frame.grid(row=0, column=1, padx=5, pady=5)
     results_gridframe.pack()
-    return_to_main_menu_button = tk.Button(master=results_frame, text="Return to Main Menu", width=25, height=5, bg="light steel blue", fg="black",command=lambda: mainMenu()) 
-    return_to_main_menu_button.pack()
-   
-
-
+    #return_to_main_menu_button = tk.Button(master=results_frame, text="Return to Main Menu", width=25, height=5, bg="light steel blue", fg="black",command=lambda: mainMenu()) 
+    #return_to_main_menu_button.pack()
 
     results_frame.pack()
 
-def mainMenu():
-    results_frame.pack_forget()
-    ranked.candidates.clear()
-    entry_frame.pack()
-
-def create_pie_chart(num_rounds):
-
-    #create pie chart:
-    #https://datatofish.com/how-to-create-a-gui-in-python/
-    #https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_features.html#references
-    graph = Figure(figsize=(4,3), dpi=100) 
-    subplot1 = graph.add_subplot(111) 
-    names = ranked.getNames()
-    votes = ranked.getVotes()
-    subplot1.pie(votes, labels=names, autopct='%1.1f%%', shadow=True, startangle=90)
-    subplot1.axis('equal')
-    fptpPie = FigureCanvasTkAgg(fptpGraph, FPTP_results_frame)
-    fptpPie.get_tk_widget().pack()
+#def mainMenu():
+#    results_frame.pack_forget()
+#    ranked.candidates.clear()
+#    entry_frame.pack()
+#    global voteRemaining
+#    voteRemaining = 100
+    #window.update()
+#    vote_remaining_label.config(text=f"You have {voteRemaining}% of the vote left to assign.")
 
     
 #VIEW (GUI)

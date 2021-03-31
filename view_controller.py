@@ -3,6 +3,9 @@ import ranked_ec as ranked
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from collections import OrderedDict
+
+#TO MAKE EXE FILE WITH PYINSTALLER:
+#pyinstaller --onefile view_controller.py ranked_ec.py -n AV_Simulation
  
 #https://realpython.com/python-gui-tkinter/ 
 #global variables
@@ -52,8 +55,27 @@ def createCandidate():
     #print updated candidate list to console
     ranked.printCandidates()
 
+def undoCandidate():
+    result = ranked.undoAddCandidate()
+    msg = result[0]
+    votesRemoved = result[1]
+    error_label.config(text=msg, bg = "red")
+    global voteRemaining
+    voteRemaining += votesRemoved
+    vote_remaining_label.config(text = f"You have {voteRemaining}% of the vote left to assign.")
+
+
+def deleteCandidates():
+    msg = ranked.deleteCandidates()
+    error_label.config(text=msg, bg = "red")
+    global voteRemaining
+    voteRemaining = 100
+    vote_remaining_label.config(text = f"You have {voteRemaining}% of the vote left to assign.")
+
+
 def historical2016Candidates():
-    #Data: https://en.wikipedia.org/wiki/2016_United_States_presidential_election_in_Arizona
+    #Data: https://uselectionatlas.org/RESULTS/
+
     cand1 = ranked.Candidate("Donald Trump (Republican)", 48.08)
     cand2 = ranked.Candidate("Hillary Clinton (Democrat)", 44.58)
     cand3 = ranked.Candidate("Gary Johnson (Libertarian)", 4.08)
@@ -69,7 +91,7 @@ def historical2016Candidates():
     donewCandidates()
 
 def historical2020Candidates():
-    #Data: https://en.wikipedia.org/wiki/2020_United_States_presidential_election_in_Arizona
+    #Data: https://uselectionatlas.org/RESULTS/ 
     cand1 = ranked.Candidate("Joe Biden (Democrat)", 49.36)
     cand2 = ranked.Candidate("Donald Trump (Republican)", 49.06)
     cand3 = ranked.Candidate("Jo Jorgensen (Libertarian)", 1.52)
@@ -122,6 +144,7 @@ def donewCandidates():
         third_choices_option_menu.grid(row=2, column=1, padx=5, pady=5)
         create_choice_button.grid(row=3, column=0, padx=5, pady=5)
         calculate_results.grid(row=3, column=1, padx=5, pady=5)
+        delete_choices_button.grid(row=4, column=0, padx=5, pady=5)
         enter_candidate_choices_frame.pack()
 
 
@@ -144,6 +167,10 @@ def enterChoices():
         
         ranked.printCandidates()
         return
+
+def deleteChoices():
+    msg = ranked.deleteChoices()
+    choices_error_label.config(text=msg)
 
 def calculateResults():
     window.geometry("1300x600")
@@ -266,7 +293,7 @@ entry_frame = tk.Frame(window, width=1000, height=450)
 label1 = tk.Label(master=entry_frame, text="Pick your scenario:")
 label1.pack()
 
-button1 = tk.Button(master=entry_frame, text="Ranked Voting vs. FPTP", width=25, height=5, bg="light steel blue", fg="black", command=lambda: chooseRanked())
+button1 = tk.Button(master=entry_frame, text="Ranked Voting vs. FPTP: Arizona Presidential Election", width=40, height=5, bg="light steel blue", fg="black", command=lambda: chooseRanked())
 #https://stackoverflow.com/questions/6874525/how-to-handle-a-button-click-event
 #button1.grid(column=1, row =0)
 button1.pack()
@@ -292,22 +319,26 @@ voteEntry = tk.Entry(master=candidate_gridframe)
 voteEntry.grid(row=1, column=1, padx=5, pady=5)
 
 
-create_candidate_button = tk.Button(master=candidate_gridframe, text="Create Candidate", width=25, height=5, bg="light steel blue", fg="black", command=lambda: createCandidate()) 
+create_candidate_button = tk.Button(master=candidate_gridframe, text="Create Candidate", width=25, height=2, bg="light steel blue", fg="black", command=lambda: createCandidate()) 
 #https://stackoverflow.com/questions/6874525/how-to-handle-a-button-click-event
 
-done_button = tk.Button(master=candidate_gridframe, text="Done", width=25, height=5, bg="light steel blue", fg="black",command=lambda: donewCandidates()) 
+done_button = tk.Button(master=candidate_gridframe, text="Done", width=25, height=2, bg="light steel blue", fg="black",command=lambda: donewCandidates()) 
+undo_cand_button = tk.Button(master=candidate_gridframe, text="Undo Add Candidate", width=25, height=2, bg="light steel blue", fg="black",command=lambda: undoCandidate())
+delete_cand_button = tk.Button(master=candidate_gridframe, text="Delete All Candidates (Start Over)", width=25, height=2, bg="light steel blue", fg="black",command=lambda: deleteCandidates()) 
 
-historical2016_button = tk.Button(master=candidate_gridframe, text="Use 2016 Election Canditates", width=25, height=5, bg="light steel blue", fg="black",command=lambda: historical2016Candidates())
-historical2020_button = tk.Button(master=candidate_gridframe, text="Use 2020 Election Canditates", width=25, height=5, bg="light steel blue", fg="black",command=lambda: historical2020Candidates())
+historical2016_button = tk.Button(master=candidate_gridframe, text="Use 2016 Election Canditates", width=25, height=2, bg="light steel blue", fg="black",command=lambda: historical2016Candidates())
+historical2020_button = tk.Button(master=candidate_gridframe, text="Use 2020 Election Canditates", width=25, height=2, bg="light steel blue", fg="black",command=lambda: historical2020Candidates())
 create_candidate_button.grid(row=2, column=0, padx=5, pady=5)
 done_button.grid(row=2, column=1, padx=5, pady=5)
-historical2016_button.grid(row = 3, column=0, padx=5, pady=5)
-historical2020_button.grid(row = 3, column=1, padx=5, pady=5)
+undo_cand_button.grid(row = 3, column=0, padx=5, pady=5)
+delete_cand_button.grid(row = 3, column=1, padx=5, pady=5)
+historical2016_button.grid(row = 4, column=0, padx=5, pady=5)
+historical2020_button.grid(row = 4, column=1, padx=5, pady=5)
 candidate_gridframe.pack()
 error_label = tk.Label(master = enter_candidate_frame, text="")
 error_label.pack()
 
-#Candidate Choices entry
+#CANDIDATE CHOICES ENTRY
 enter_candidate_choices_frame = tk.Frame(window)
 
 choices_error_label = tk.Label(master=enter_candidate_choices_frame, text="")
@@ -318,6 +349,7 @@ candidate_choices_label.pack()
 candidate_choices_gridframe = tk.Frame(enter_candidate_choices_frame)
 create_choice_button = tk.Button(master=candidate_choices_gridframe, text="Create Choices", width=25, height=2, bg="light steel blue", fg="black", command=lambda: enterChoices())
 calculate_results = tk.Button(master=candidate_choices_gridframe, text="Calculate Results", width=25, height=2, bg="light steel blue", fg="black", command=lambda: calculateResults())
+delete_choices_button = tk.Button(master=candidate_choices_gridframe, text="Delete All Choices (Start Over)", width=25, height=2, bg="light steel blue", fg="black", command=lambda: deleteChoices())
 
 candidate = tk.Label(master=candidate_choices_gridframe, text="Candidate:")
 candidate_second_choice = tk.Label(master=candidate_choices_gridframe, text="Second Choice:")
@@ -329,6 +361,7 @@ second_choices_option_menu = tk.OptionMenu(candidate_choices_gridframe, empty_li
 third_choices_option_menu = tk.OptionMenu(candidate_choices_gridframe, empty_list[0], empty_list)
 
 #this is where i made them global
+#option menu variables
 candidate_options = ["Pick a Candidate"]
 
 candidate_options1 = ["Pick a Candidate"]
@@ -345,7 +378,7 @@ variable3.set(candidate_options1[0]) #this specifies default value
 candidate_choices_gridframe.pack()
 choices_error_label.pack()
 
-#results frame
+#RESULTS FRAME
 results_frame = tk.Frame(window)
 
 window.mainloop()

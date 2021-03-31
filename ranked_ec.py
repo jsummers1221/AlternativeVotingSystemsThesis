@@ -73,6 +73,34 @@ def printCandidates():
     for cand in candidates:
         cand.print()
 
+def undoAddCandidate():
+    if len(candidates) > 0:
+        removed = candidates.pop()
+        msg = f"Removed previously added Candidate {removed.getName()} with {removed.getVotes()}% of the vote."
+        print(msg)
+        printCandidates()
+        return [msg, removed.getVotes()]
+    else:
+        msg = "The candidate list is empty and there is nothing to undo."
+        return [msg, 0]
+
+def deleteCandidates():
+    if len(candidates) > 0:
+        candidates.clear()
+        print("Emptied the candidate list.")
+        printCandidates()
+        return "Emptied the candidate list."
+    else:
+        return "The candidate list is already empty."
+
+def deleteChoices():
+    for cand in candidates:
+        cand.set2ndChoice("")
+        cand.set3rdChoice("")
+    print("Removed all 2nd and 3rd choices from all candidates.")
+    printCandidates()
+    return "Removed all 2nd and 3rd choices from all candidates."
+
 def runRankedElection():
 
     won = False

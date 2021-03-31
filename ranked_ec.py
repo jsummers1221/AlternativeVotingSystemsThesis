@@ -132,11 +132,15 @@ def runRankedElection():
         if len(candidates) > 1: 
             candidates.remove(losingCandidate)
             print("Ranked Round: %d" % numRounds)
-            print("Removed Candidate %s and gave their votes to Candidate %s" % (losingCandidate.getName(), nextCandidate.getName()))
+            if nextCandidate:
+                print("Removed Candidate %s and gave their votes to Candidate %s" % (losingCandidate.getName(), nextCandidate.getName()))
+                msg = "Removed Candidate %s and gave their votes to Candidate %s" % (losingCandidate.getName(), nextCandidate.getName())
+            else:
+                print("Removed Candidate %s and gave their votes to no one since they had no next choices." % (losingCandidate.getName()))
+                msg = "Removed Candidate %s and gave their votes to no one since they had no next choices." % (losingCandidate.getName())
             printCandidates()
             
             #update info for pie charts
-            msg = "Removed Candidate %s and gave their votes to Candidate %s" % (losingCandidate.getName(), nextCandidate.getName())
             rounds_names[numRounds] = getNames()
             rounds_votes[numRounds] = getVotes()
             rounds_msg[numRounds] = msg

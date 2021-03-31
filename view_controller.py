@@ -52,6 +52,37 @@ def createCandidate():
     #print updated candidate list to console
     ranked.printCandidates()
 
+def historical2016Candidates():
+    #Data: https://en.wikipedia.org/wiki/2016_United_States_presidential_election_in_Arizona
+    cand1 = ranked.Candidate("Donald Trump (Republican)", 48.08)
+    cand2 = ranked.Candidate("Hillary Clinton (Democrat)", 44.58)
+    cand3 = ranked.Candidate("Gary Johnson (Libertarian)", 4.08)
+    cand4 = ranked.Candidate("Jill Stein (Green)", 1.32)
+    ranked.candidates.append(cand1)
+    ranked.candidates.append(cand2)
+    ranked.candidates.append(cand3)
+    ranked.candidates.append(cand4)
+
+    ranked.printCandidates()
+    global voteRemaining
+    voteRemaining = 0
+    donewCandidates()
+
+def historical2020Candidates():
+    #Data: https://en.wikipedia.org/wiki/2020_United_States_presidential_election_in_Arizona
+    cand1 = ranked.Candidate("Joe Biden (Democrat)", 49.36)
+    cand2 = ranked.Candidate("Donald Trump (Republican)", 49.06)
+    cand3 = ranked.Candidate("Jo Jorgensen (Libertarian)", 1.52)
+
+    ranked.candidates.append(cand1)
+    ranked.candidates.append(cand2)
+    ranked.candidates.append(cand3)
+    ranked.printCandidates()
+    global voteRemaining
+    voteRemaining = 0
+    donewCandidates()
+
+
 
 def donewCandidates():
     #user clicks done and transitions to next frame for choosing candidate choices if they have entered 100% of the vote
@@ -115,7 +146,7 @@ def enterChoices():
         return
 
 def calculateResults():
-    window.geometry("900x500")
+    window.geometry("1300x600")
     enter_candidate_choices_frame.pack_forget()
     #results frame
  
@@ -132,12 +163,19 @@ def calculateResults():
     #create pie chart:
     #https://datatofish.com/how-to-create-a-gui-in-python/
     #https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_features.html#references
-    fptpGraph = Figure(figsize=(4,3), dpi=100) 
-    subplot1 = fptpGraph.add_subplot(111) 
+    fptpGraph = Figure(figsize=(5,4), dpi=100) 
+    subplot1 = fptpGraph.add_subplot(211) 
     names = ranked.getNames()
     votes = ranked.getVotes()
-    subplot1.pie(votes, labels=names, autopct='%1.1f%%', shadow=True, startangle=90)
+    pie = subplot1.pie(votes, startangle=90)
     subplot1.axis('equal')
+    subplot2 = fptpGraph.add_subplot(212)
+    labels = ['{0} - {1:1.1f} %'.format(i,j) for i,j in zip(names, votes)]
+    subplot2.axis("off")
+    subplot2.legend(pie[0], labels, loc="center")
+    #how to make a legend in matplotlib:
+    #https://stackoverflow.com/questions/23577505/how-to-avoid-overlapping-of-labels-autopct-in-a-matplotlib-pie-chart
+    #https://stackoverflow.com/questions/43272206/python-legend-overlaps-with-the-pie-chart
     fptpPie = FigureCanvasTkAgg(fptpGraph, FPTP_results_frame)
     fptpPie.get_tk_widget().pack()
 
@@ -170,7 +208,7 @@ def calculateResults():
     #scroll_frame.bind("<Configure>",lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
     vertical_scroll.pack(side="right", fill ="y")
     canvas.pack(side="left", fill="both", expand=True)
-    canvas.create_window((4,4), window=scroll_frame, anchor="nw")
+    canvas.create_window((5,5), window=scroll_frame, anchor="n")
     scroll_frame.bind('<Configure>',  lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox('all')))
     
     roundvotes = ranked.rounds_votes
@@ -185,12 +223,16 @@ def calculateResults():
         tk.Label(scroll_frame, text=f"Round {roundnum}").pack()
         if roundnum in roundmsgs:
             tk.Label(scroll_frame, text=roundmsgs[roundnum]).pack()
-        graph = Figure(figsize=(4,3), dpi=100) 
-        subplot1 = graph.add_subplot(111) 
+        graph = Figure(figsize=(5,4), dpi=100) 
+        subplot1 = graph.add_subplot(211) 
         names = roundnames[roundnum]
         votes = roundvotes[roundnum]
-        subplot1.pie(votes, labels=names, autopct='%1.1f%%', shadow=True, startangle=90)
+        subplot1.pie(votes, startangle=90)
         subplot1.axis('equal')
+        subplot2 = graph.add_subplot(212)
+        labels = ['{0} - {1:1.1f} %'.format(i,j) for i,j in zip(names, votes)]
+        subplot2.axis("off")
+        subplot2.legend(pie[0], labels, loc="center")
         rankPie = FigureCanvasTkAgg(graph, scroll_frame)
         rankPie.get_tk_widget().pack()
 
@@ -255,8 +297,12 @@ create_candidate_button = tk.Button(master=candidate_gridframe, text="Create Can
 
 done_button = tk.Button(master=candidate_gridframe, text="Done", width=25, height=5, bg="light steel blue", fg="black",command=lambda: donewCandidates()) 
 
+historical2016_button = tk.Button(master=candidate_gridframe, text="Use 2016 Election Canditates", width=25, height=5, bg="light steel blue", fg="black",command=lambda: historical2016Candidates())
+historical2020_button = tk.Button(master=candidate_gridframe, text="Use 2020 Election Canditates", width=25, height=5, bg="light steel blue", fg="black",command=lambda: historical2020Candidates())
 create_candidate_button.grid(row=2, column=0, padx=5, pady=5)
 done_button.grid(row=2, column=1, padx=5, pady=5)
+historical2016_button.grid(row = 3, column=0, padx=5, pady=5)
+historical2020_button.grid(row = 3, column=1, padx=5, pady=5)
 candidate_gridframe.pack()
 error_label = tk.Label(master = enter_candidate_frame, text="")
 error_label.pack()

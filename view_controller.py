@@ -162,7 +162,7 @@ def calculateResults():
     #https://www.geeksforgeeks.org/scrollable-frames-in-tkinter/
     #https://stackoverflow.com/questions/3085696/adding-a-scrollbar-to-a-group-of-widgets-in-tkinter
     canvas = tk.Canvas(ranked_results_frame)
-    scroll_frame = tk.Frame(canvas)
+    global scroll_frame = tk.Frame(canvas)
     vertical_scroll = tk.Scrollbar(ranked_results_frame, orient="vertical", command=canvas.yview)
     canvas.configure(yscrollcommand=vertical_scroll.set)
 
@@ -191,6 +191,21 @@ def mainMenu():
     results_frame.pack_forget()
     ranked.candidates.clear()
     entry_frame.pack()
+
+def create_pie_chart(num_rounds):
+
+    #create pie chart:
+    #https://datatofish.com/how-to-create-a-gui-in-python/
+    #https://matplotlib.org/stable/gallery/pie_and_polar_charts/pie_features.html#references
+    graph = Figure(figsize=(4,3), dpi=100) 
+    subplot1 = graph.add_subplot(111) 
+    names = ranked.getNames()
+    votes = ranked.getVotes()
+    subplot1.pie(votes, labels=names, autopct='%1.1f%%', shadow=True, startangle=90)
+    subplot1.axis('equal')
+    fptpPie = FigureCanvasTkAgg(fptpGraph, FPTP_results_frame)
+    fptpPie.get_tk_widget().pack()
+
     
 #VIEW (GUI)
 window = tk.Tk()

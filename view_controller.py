@@ -74,7 +74,7 @@ def deleteCandidates():
 
 
 def historical2016Candidates():
-    #Data: https://uselectionatlas.org/RESULTS/
+    #Data: https://uselectionatlas.org/RESULTS/, accessed 3/31/21
 
     cand1 = ranked.Candidate("Donald Trump (Republican)", 48.08)
     cand2 = ranked.Candidate("Hillary Clinton (Democrat)", 44.58)

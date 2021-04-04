@@ -225,7 +225,7 @@ def calculateResults():
     #scrollbars
     #https://blog.teclado.com/tkinter-scrollable-frames/
     #https://www.geeksforgeeks.org/scrollable-frames-in-tkinter/
-    #https://stackoverflow.com/questions/3085696/adding-a-scrollbar-to-a-group-of-widgets-in-tkinter
+    #https://stackoverflow.com/a/3092341 #scrollbar demo
     canvas = tk.Canvas(ranked_results_frame)
     global scroll_frame #declare this as global so the function to create charts for each round can access it
     scroll_frame = tk.Frame(canvas)

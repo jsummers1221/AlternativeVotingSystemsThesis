@@ -1,3 +1,5 @@
+#Source: https://stackoverflow.com/questions/3085696/adding-a-scrollbar-to-a-group-of-widgets-in-tkinter
+
 import tkinter as tk
 
 def populate(frame):

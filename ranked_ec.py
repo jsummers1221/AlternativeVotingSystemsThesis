@@ -102,7 +102,9 @@ def deleteChoices():
     return "Removed all 2nd and 3rd choices from all candidates."
 
 def runRankedElection():
-
+    #How Ranked Elections Work:
+    #https://www.cgpgrey.com/politics-in-the-animal-kingdom
+    #https://www.youtube.com/watch?v=3Ez3aEUjRQo&feature=youtu.be 
     won = False
     losingCandidate = ""
     winningCandidate = ""

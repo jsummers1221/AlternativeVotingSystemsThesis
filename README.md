@@ -2,7 +2,7 @@
 Honors Thesis and Creative Project by Autumn Martin and Jack Summers <br>
 Barrett, The Honors College at Arizona State University <br>
 
-This application compares Ranked Voting (Instant Run-off Voting) system with the current First-Past-The-Post (plurality) system in a simulated Arizona Presidential Election.
+This application compares a Ranked (Instant Run-off) Voting System with the current First-Past-The-Post (plurality) Voting System in a simulated Arizona Presidential Election.
 
 # Instructions:
 Download and run the AV_Simulation executable file. 

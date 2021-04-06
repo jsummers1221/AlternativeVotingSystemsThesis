@@ -27,8 +27,8 @@ The "Use 2016/2020..." buttons will load real candidate information from those e
 
 # Entering the Ranked Choices
 Here you may enter Ranked Choices for the Ranked Voting simulation.
-Normally, a voter would rank candidates on their ballot.
-But this simulation uses a simplified version where ranking is done at the candidate level.
+Normally, a voter would rank candidates on their ballot,
+but this simulation uses a simplified version where ranking is done at the candidate level.
 
 1. Pick a Candidate for the "Candidate:" drop-down menu.
 2. Pick candidates for the 2nd and 3rd choices.
@@ -37,14 +37,18 @@ But this simulation uses a simplified version where ranking is done at the candi
 5. Click "Calculate Results" when you are done.
 
 If you want:
-You don't have to enter choices for all the candidates.
-You can assign a 2nd choice and not assign a 3rd.
-You can enter no choices at all and skip this
+* You don't have to enter choices for all the candidates.
+* You can assign a 2nd choice and not assign a 3rd.
+* You can enter no choices at all and skip this
 part by clicking "Calculate Results."
 
 # Viewing the Results
-Here you can see the results of both simulated elections.
-Each round of the Ranked Voting algorithm:
+Here you can see the results of both simulated elections. <br>
+The Ranked Voting algorithm requires that a candidate have over 50% of the vote to win.
+Each round:
 1. Checks for a winner (> 50%). 
 2. If no winner, eliminates the lowest candidate 
 and gives their votes to their next choice if possible.
+
+The FPTP algorithm simply declares the candidate with the most votes as the winner,
+even if they have less than 50% of the vote.

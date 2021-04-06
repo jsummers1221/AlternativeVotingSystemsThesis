@@ -12,7 +12,8 @@ show you the Ranked Voting rounds in more detail.
 
 Follow the instructions below.
 
-## Selecting the Scenario
+## Select the Scenario
+![Pick the Scenario](/images/pickscenario.png?raw=true)
 Pick the "Ranked Voting vs. FPTP: Arizona Presidential Election" scenario. <br>
 In the future, more scenarios can be added. <br>
 

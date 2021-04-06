@@ -75,7 +75,7 @@ def deleteCandidates():
 
 def historical2016Candidates():
     #Data: https://uselectionatlas.org/RESULTS/, accessed 3/31/21
-
+    ranked.candidates.clear() #clear anything the user has entered into the candidate list
     cand1 = ranked.Candidate("Donald Trump (Republican)", 48.08)
     cand2 = ranked.Candidate("Hillary Clinton (Democrat)", 44.58)
     cand3 = ranked.Candidate("Gary Johnson (Libertarian)", 4.08)
@@ -92,6 +92,7 @@ def historical2016Candidates():
 
 def historical2020Candidates():
     #Data: https://uselectionatlas.org/RESULTS/ 
+    ranked.candidates.clear() #clear anything the user has entered into the candidate list
     cand1 = ranked.Candidate("Joe Biden (Democrat)", 49.36)
     cand2 = ranked.Candidate("Donald Trump (Republican)", 49.06)
     cand3 = ranked.Candidate("Jo Jorgensen (Libertarian)", 1.52)
@@ -313,7 +314,7 @@ candidate_entry_label.grid(row=0, column=0, padx=5, pady=5)
 candidateEntry = tk.Entry(master=candidate_gridframe)
 candidateEntry.grid(row=0, column=1, padx=5, pady=5)
 
-vote_entry_label = tk.Label(master=candidate_gridframe, text="Enter the percentage of the vote recieved (integer):")
+vote_entry_label = tk.Label(master=candidate_gridframe, text="Enter the percentage of the vote recieved:")
 vote_entry_label.grid(row=1, column=0, padx=5, pady=5)
 voteEntry = tk.Entry(master=candidate_gridframe)
 voteEntry.grid(row=1, column=1, padx=5, pady=5)

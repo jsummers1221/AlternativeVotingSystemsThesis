@@ -2,47 +2,50 @@
 Honors Thesis and Creative Project by Autumn Martin and Jack Summers <br>
 Barrett, The Honors College at Arizona State University <br>
 
-This application compares Ranked Voting (Instant Run-off Voting) with the current First-Past-The-Post (plurality) in a simulated Arizona Presidential Election.
+This application compares Ranked Voting (Instant Run-off Voting) system with the current First-Past-The-Post (plurality) system in a simulated Arizona Presidential Election.
 
-## Instructions:##
+# Instructions:
 Download and run the AV_Simulation executable file. 
-The application interface and console will open.
+The application and console will open. <br>
+The console will print out the candidate list when it is updated and will
+show you the Ranked Voting rounds in more detail.
 
+Follow the instructions below.
 
-# Selecting the Scenario
+## Selecting the Scenario
 Pick the "Ranked Voting vs. FPTP: Arizona Presidential Election" scenario. <br>
 In the future, more scenarios can be added. <br>
 
-# Entering the Candidates
+## Entering the Candidates
 Here you will enter candidate names and the percentage of the vote they recieved.
 1. Click "Create Candidate" once you have entered the information.
 2. Continue creating candidates until you have assigned 100% of the vote.
 3. Then, click "Done".
-The message at the top tells you how much of the vote you have left to assign.
+The message at the top tells you how much of the vote you have left to assign. <br>
+The green/red status message will describe success or error messages. <br>
 
-Click the Undo button to delete the last candidate you entered.
-Click the Delete button to delete all the candidates entered so far.
+Click the Undo button to delete the last candidate you entered.<br>
+Click the Delete button to delete all the candidates entered so far.<br>
+The "Use 2016/2020..." buttons will load real candidate information from those election years and use that instead.<br>
 
-The "Use 2016/2020..." buttons will load real candidate information from those election years and use that instead.
-
-# Entering the Ranked Choices
-Here you may enter Ranked Choices for the Ranked Voting simulation.
+## Entering the Ranked Choices
+Here you may enter Ranked Choices for the Ranked Voting simulation. <br>
 Normally, a voter would rank candidates on their ballot,
 but this simulation uses a simplified version where ranking is done at the candidate level.
-
 1. Pick a Candidate for the "Candidate:" drop-down menu.
 2. Pick candidates for the 2nd and 3rd choices.
 3. Click "Create Choices".
 4. If that Candidate is eliminated, their vote percentage will be given to the next choice candidate.
 5. Click "Calculate Results" when you are done.
+The green/red status message will describe success or error messages. <br>
 
 If you want:
 * You don't have to enter choices for all the candidates.
-* You can assign a 2nd choice and not assign a 3rd.
+* You can assign a 2nd choice and not assign a 3rd by choosing the blank option in the drop-down.
 * You can enter no choices at all and skip this
 part by clicking "Calculate Results."
 
-# Viewing the Results
+## Viewing the Results
 Here you can see the results of both simulated elections. <br>
 The Ranked Voting algorithm requires that a candidate have over 50% of the vote to win.
 Each round:

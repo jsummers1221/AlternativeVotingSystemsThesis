@@ -13,11 +13,12 @@ show you the Ranked Voting rounds in more detail.
 Follow the instructions below.
 
 ## Select the Scenario
-![Pick the Scenario](/images/pickscenario.png?raw=true)
+![](/images/pickscenario.png?raw=true) <br>
 Pick the "Ranked Voting vs. FPTP: Arizona Presidential Election" scenario. <br>
 In the future, more scenarios can be added. <br>
 
 ## Entering the Candidates
+![](/images/createcandidates.png?raw=true) <br>
 Here you will enter candidate names and the percentage of the vote they recieved.
 1. Click "Create Candidate" once you have entered the information.
 2. Continue creating candidates until you have assigned 100% of the vote.
@@ -30,6 +31,7 @@ Click the Delete button to delete all the candidates entered so far.<br>
 The "Use 2016/2020..." buttons will load real candidate information from those election years and use that instead.<br>
 
 ## Entering the Ranked Choices
+![](/images/createchoices.png?raw=true) <br>
 Here you may enter Ranked Choices for the Ranked Voting simulation. <br>
 Normally, a voter would rank candidates on their ballot,
 but this simulation uses a simplified version where ranking is done at the candidate level.
@@ -47,6 +49,7 @@ If you want:
 part by clicking "Calculate Results."
 
 ## Viewing the Results
+![](/images/results.png?raw=true) <br>
 Here you can see the results of both simulated elections. <br>
 The Ranked Voting algorithm requires that a candidate have over 50% of the vote to win.
 Each round:

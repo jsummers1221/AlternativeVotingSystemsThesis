@@ -1,5 +1,5 @@
-# Alternative Voting Systems Thesis & Simulation
-Honors Thesis and Creative Project by Autumn Martin and Jack Summers <br>
+# Alternative Voting Systems Simulation
+Honors Creative Project by Autumn Martin and Jack Summers <br>
 Barrett, The Honors College at Arizona State University <br>
 
 This application compares a Ranked (Instant Run-off) Voting System with the current First-Past-The-Post (plurality) Voting System in a simulated Arizona Presidential Election.
@@ -55,6 +55,7 @@ If you want:
 * You can assign a 2nd choice and not assign a 3rd by choosing the blank option in the drop-down.
 * You can enter no choices at all and skip this
 part by clicking "Calculate Results."
+* However, not using choices means you will not use the functionality of Ranked Voting.
 
 ## Viewing the Results
 ![](/images/results.png?raw=true) <br>

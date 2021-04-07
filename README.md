@@ -6,11 +6,19 @@ This application compares a Ranked (Instant Run-off) Voting System with the curr
 
 # Instructions:
 Download and run the AV_Simulation executable file. 
-The application and console will open. <br>
+The application and console will open. This may take 15-30 seconds as the file loads. <br>
 The console will print out the candidate list when it is updated and will
 show you the Ranked Voting rounds in more detail.
 
-Follow the instructions below.
+To run the source code for the application, install Python 3.9.0 or greater and
+install the matplotlib library (we used version 3.3.4). The rest of the libraries
+are included in the standard library. Then, run view_controller.py to start the program. <br>
+1. Download Python from here: https://www.python.org/downloads/
+2. In windows powershell, do the following:
+3. Run "pip install matplotlib" to install matplotlib.
+4. Navigate to the directory with the python files and run "python .\view_controller.py"
+
+Follow the instructions below to operate the program.
 
 ## Select the Scenario
 ![](/images/pickscenario.png?raw=true) <br>
@@ -59,3 +67,6 @@ and gives their votes to their next choice if possible.
 
 The FPTP algorithm simply declares the candidate with the most votes as the winner,
 even if they have less than 50% of the vote.
+
+## Running Another Simulation
+To simulate another election, close the application and run it again using the instructions above.

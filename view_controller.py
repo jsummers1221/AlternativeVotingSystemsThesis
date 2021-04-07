@@ -3,6 +3,7 @@ import ranked_ec as ranked
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from collections import OrderedDict
+import webbrowser
 
 #TO MAKE EXE FILE WITH PYINSTALLER:
 #pyinstaller --onefile view_controller.py ranked_ec.py -n AV_Simulation
@@ -286,25 +287,28 @@ def calculateResults():
 #VIEW (GUI)
 window = tk.Tk()
 window.geometry("500x500")
+window.title("Alternative Voting Systems Simulation")
 
 entry_frame = tk.Frame(window, width=1000, height=450)
 #entry_frame.grid(column=0, row=0)
 
 #PICK SCENARIO
 label1 = tk.Label(master=entry_frame, text="Pick your scenario:")
-label1.pack()
+label1.pack(padx=5, pady=5)
 
 button1 = tk.Button(master=entry_frame, text="Ranked Voting vs. FPTP: Arizona Presidential Election", width=40, height=5, bg="light steel blue", fg="black", command=lambda: chooseRanked())
+help_button = tk.Button(master=entry_frame, text="Click Here for Instructions", width=40, height=2, bg="light steel blue", fg="black", command=lambda: webbrowser.open_new("https://github.com/jsummers1221/AlternativeVotingSystemsThesis/blob/main/README.md"))
 #https://stackoverflow.com/questions/6874525/how-to-handle-a-button-click-event
 #button1.grid(column=1, row =0)
-button1.pack()
+button1.pack(padx=5, pady=5)
+help_button.pack(side=tk.BOTTOM, padx=5, pady=20)
 
 entry_frame.pack()
 
 #CANDIDATE ENTRY
 enter_candidate_frame = tk.Frame(window)
 candidate_gridframe = tk.Frame(enter_candidate_frame)
-
+help_button = tk.Button(master=enter_candidate_frame, text="Click Here for Instructions", width=40, height=2, bg="light steel blue", fg="black", command=lambda: webbrowser.open_new("https://github.com/jsummers1221/AlternativeVotingSystemsThesis/blob/main/README.md"))
 vote_remaining_label = tk.Label(master=enter_candidate_frame, text=f"You have {voteRemaining}% of the vote left to assign.")
 vote_remaining_label.pack()
 
@@ -339,8 +343,11 @@ candidate_gridframe.pack()
 error_label = tk.Label(master = enter_candidate_frame, text="")
 error_label.pack()
 
+help_button.pack(side=tk.BOTTOM, padx=5, pady=20)
+
 #CANDIDATE CHOICES ENTRY
 enter_candidate_choices_frame = tk.Frame(window)
+help_button = tk.Button(master=enter_candidate_choices_frame, text="Click Here for Instructions", width=40, height=2, bg="light steel blue", fg="black", command=lambda: webbrowser.open_new("https://github.com/jsummers1221/AlternativeVotingSystemsThesis/blob/main/README.md"))
 
 choices_error_label = tk.Label(master=enter_candidate_choices_frame, text="")
 
@@ -379,8 +386,12 @@ variable3.set(candidate_options1[0]) #this specifies default value
 candidate_choices_gridframe.pack()
 choices_error_label.pack()
 
+help_button.pack(side=tk.BOTTOM, padx=5, pady=20)
+
 #RESULTS FRAME
 results_frame = tk.Frame(window)
 
+help_button = tk.Button(master=results_frame, text="Click Here for Instructions", width=40, height=2, bg="light steel blue", fg="black", command=lambda: webbrowser.open_new("https://github.com/jsummers1221/AlternativeVotingSystemsThesis/blob/main/README.md"))
+help_button.pack(side=tk.BOTTOM, padx=5, pady=20)
 window.mainloop()
 

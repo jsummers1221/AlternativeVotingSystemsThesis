@@ -1,10 +1,8 @@
-
-from collections import OrderedDict
 #MODEL
 candidates = []
-rounds_names = OrderedDict()
-rounds_votes = OrderedDict()
-rounds_msg = OrderedDict()
+rounds_names = dict()
+rounds_votes = dict()
+rounds_msg = dict()
 #how to search thru list of objects for an object with an attribute equal to some value
 #next((x for x in test_list if x.value == value), None)
 #https://stackoverflow.com/questions/7125467/find-object-in-list-that-has-attribute-equal-to-some-value-that-meets-any-condi 

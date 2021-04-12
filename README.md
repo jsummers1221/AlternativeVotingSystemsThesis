@@ -4,8 +4,9 @@ Barrett, The Honors College at Arizona State University <br>
 
 This application compares a Ranked (Instant Run-off) Voting System with the current First-Past-The-Post (plurality) Voting System in a simulated Arizona Presidential Election.
 
+
 # Instructions:
-Download and run the AV_Simulation executable file. 
+Download and run the AV_Simulation executable file. This can ONLY be run on WINDOWS OS.
 The application and console will open. This may take 15-30 seconds as the file loads. <br>
 The console will print out the candidate list when it is updated and will
 show you the Ranked Voting rounds in more detail.

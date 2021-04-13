@@ -21,8 +21,6 @@ are included in the standard library. Then, run view_controller.py to start the 
 
 Follow the instructions below to operate the program. Here is an additional video demonstration, too: <br>
 https://youtu.be/kJUaOTUTidg <br>
-Or: <br>
-![](/images/thesis_av_simulation_demo_1.mp4) <br>
 
 ## Select the Scenario
 ![](/images/pickscenario.png?raw=true) <br>

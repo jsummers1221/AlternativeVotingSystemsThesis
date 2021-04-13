@@ -2,7 +2,7 @@
 Honors Creative Project by Autumn Martin and Jack Summers <br>
 Barrett, The Honors College at Arizona State University <br>
 
-This application compares a Ranked (Instant Run-off) Voting System with the current First-Past-The-Post (plurality) Voting System in a simulated Arizona Presidential Election.
+This application compares a Ranked (Instant Run-off) Voting System with the current First-Past-The-Post (plurality) Voting System in a simulated Arizona Presidential Election. [Check out our full Report here.](Creative%20Project%20Report.pdf)
 
 
 # Instructions:

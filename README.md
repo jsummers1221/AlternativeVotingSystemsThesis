@@ -19,7 +19,10 @@ are included in the standard library. Then, run view_controller.py to start the 
 3. Run "pip install matplotlib" to install matplotlib.
 4. Navigate to the directory with the python files and run "python .\view_controller.py"
 
-Follow the instructions below to operate the program.
+Follow the instructions below to operate the program. Here is an additional video demonstration, too: <br>
+https://youtu.be/kJUaOTUTidg <br>
+Or: <br>
+![](/images/thesis_av_simulation_demo_1.mp4) <br>
 
 ## Select the Scenario
 ![](/images/pickscenario.png?raw=true) <br>
